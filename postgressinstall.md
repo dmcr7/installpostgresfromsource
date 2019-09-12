@@ -1,6 +1,7 @@
 #### PostgreSql Install Manual Dengan Source Code
 
 Step 1
+
 Install package yang diperlukan
 
         $ apt install gcc zlib1g-dev libreadline6-dev
@@ -21,12 +22,14 @@ Configure dengan prefix foldernya (agar PostgreSQL terinstall pada directory yan
 
 
 Step 4
+
 Compile dan Install
 
         $ make
         $ sudo make install
 
 Step 5
+
 Buat user dan password untuk owner PostgreSQL, buat folder untuk data, dan setting path
 
         $ useradd postgres
@@ -36,6 +39,7 @@ Buat user dan password untuk owner PostgreSQL, buat folder untuk data, dan setti
         $ echo 'export PATH=$PATH:/tekkom/app/bin' > /etc/profile.d/postgres.sh
 
 Step 6
+
 Masuk user postgres dan initdb
 
         $ su -l postgres
