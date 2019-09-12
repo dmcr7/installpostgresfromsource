@@ -9,41 +9,46 @@ Step 2
 
 Download Source PostgreSql dari sumbernya lalu ekstrak dan masuk ke directorinya
 
+        $ wget https://ftp.postgresql.org/pub/source/v11.5/postgresql-11.5.tar.gz
+        $ tar -xf postgresql-11.5.tar.gz
+        $ cd postgresql-11.5
+
 Step 3
 
-Apabila ingin PostgreSql kita letakan pada suatu directori yang kita inginkan, maka buat dulu foldernya, kemudian configure dengan prefix foldernya
+Configure dengan prefix foldernya (agar PostgreSQL terinstall pada directory yang kita inginkan)
 
-        mkdir /opt/PostgreSQL11/
-        ./configure --prefix=/opt/PostgreSQL11
+        $ ./configure --prefix=/tekkom/app/
+
 
 Step 4
 Compile dan Install
 
-        make
-        make install
-
+        $ make
+        $ sudo make install
 
 Step 5
+Buat user dan password untuk owner PostgreSQL, buat folder untuk data, dan setting path
 
-      # useradd postgres
-      # passwd postgres
-      # mkdir -p /pgdatabase/data
-      # chown -R postgres. /pgdatabase/data
-      # echo 'export PATH=$PATH:/opt/PostgreSQL11/bin' > /etc/profile.d/postgres.sh
-
+        $ useradd postgres
+        $ passwd postgres
+        $ mkdir -p /tekkom/data
+        $ chown -R postgres. /tekkom/data
+        $ echo 'export PATH=$PATH:/tekkom/app/bin' > /etc/profile.d/postgres.sh
 
 Step 6
+Masuk user postgres dan initdb
 
-    # su -l postgres
-    $ initdb -D /pgdatabase/data/ -U postgres -W
+        $ su -l postgres
+        $ initdb -D /tekkom/data
 
--D adalah dimana kita ingin menyimpan directory data database cluster, -U untuk superuser name and -W untuk password db superuser.
+-D adalah dimana kita ingin menyimpan directory data database cluster.
 
 Step 7
 
-      pg_ctl -D /pgdatabase/data/ -l /pglog/db_logs/start.log start
+Nyalakan service PostgreSQL
 
-sebelumnya buat dulu folder /pglog/db_logs untuk menyimpan log database. kemudian lakukan command diatas untuk memulai server postgres
+      pg_ctl -D /tekkom/data/ -l start.log start
+
 
 Step 8
 
@@ -53,9 +58,16 @@ Cek prosesnya
 
 Step 9
 
+Buat script agar mudah untuk start/stop/reload service PostgreSQL
+
+        $ vim postgres.sh
+        pg_ctl -D /equnix/data -l start.log $1
+        $ chmod +x postgres.sh
+        $ ./postgres.sh start|stop|reload
+
+Step 10
+
 Masuk cli PostgreSql
 
-      psql
-      postgres=# create database test;
-      postgres=# \l to list all databases in cluster
-      postgres=# \q to quit form postgres console
+        $ psql
+        postgres=# create database test;
